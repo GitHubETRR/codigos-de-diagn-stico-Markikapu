@@ -1,0 +1,157 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define TAM_TEXTO 50
+
+
+typedef struct Libro {
+    char titulo[TAM_TEXTO];
+    char autor[TAM_TEXTO];
+    int anio;
+    bool prestado;
+    struct Libro* siguiente;
+} Libro_t;
+
+Libro_t* agregarLibro(Libro_t* cabeza);
+void listarBiblioteca(Libro_t* cabeza);
+Libro_t* prestarLibro(Libro_t* cabeza, const char* titulo);
+int contarPrestados(Libro_t* cabeza);
+void liberarBiblioteca(Libro_t* cabeza);
+
+// El main menu 
+int menu() {
+    int opcion;
+    printf("\n---- LA KAPUTECA  ----\n\n");
+    printf("1. Agregar libro\n");
+    printf("2. Ver los libros\n");
+    printf("3. Prestar libro por título\n");
+    printf("4. Contar libros prestados\n");
+    printf("5. Salir\n\n");
+    printf("Elige opción: ");
+    scanf("%d", &opcion);
+    getchar();
+    return opcion;
+}
+
+int main() {
+    Libro_t* biblioteca = NULL;
+    int opcion;
+    char titulo[TAM_TEXTO];
+
+    do {
+        opcion = menu();
+        switch(opcion) {
+            case 1:
+                biblioteca = agregarLibro(biblioteca);
+                break;
+            case 2:
+                listarBiblioteca(biblioteca);
+                break;
+            case 3:
+                printf("Título a prestar: ");
+                fgets(titulo, sizeof(titulo), stdin);
+                titulo[strcspn(titulo, "\n")] = 0;
+                biblioteca = prestarLibro(biblioteca, titulo);
+                break;
+            case 4:
+                printf("Total prestados: %d\n", contarPrestados(biblioteca));
+                break;
+            case 5:
+                liberarBiblioteca(biblioteca);
+                printf("Nos vemos crack\n");
+                break;
+            default:
+                printf("Elige de vuelta por favor\n");
+        }
+    } while(opcion != 5);
+
+    return 0;
+}
+
+
+Libro_t* agregarLibro(Libro_t* cabeza) {  
+    Libro_t* nodo = calloc(1, sizeof(Libro_t));  
+    
+    printf("Título: ");
+    fgets(nodo->titulo, TAM_TEXTO, stdin);
+    nodo->titulo[strcspn(nodo->titulo, "\n")] = 0;
+
+    printf("Autor: ");
+    fgets(nodo->autor, TAM_TEXTO, stdin);
+    nodo->autor[strcspn(nodo->autor, "\n")] = 0;
+
+    printf("Año de publicación: ");
+    scanf("%d", &nodo->anio);
+    getchar();
+    
+    printf("\nGracias, su libro h sido registrado");
+
+    nodo->prestado = false;
+    nodo->siguiente = NULL;
+
+    if (!cabeza) {
+        return nodo;
+    } else {
+        Libro_t* actual = cabeza;
+        while (actual->siguiente) {
+            actual = actual->siguiente;
+        }
+        actual->siguiente = nodo;
+        return cabeza;
+    }
+}
+
+
+// Lista y estado
+void listarBiblioteca(Libro_t* cabeza) {
+    if (!cabeza) {
+        printf("La biblioteca está vacía.\n");
+        return;
+    }
+    printf("\n--- Inventario de libros ---\n");
+    for (Libro_t* aux = cabeza; aux; aux = aux->siguiente) {
+        printf("Título: %s\n", aux->titulo);
+        printf("Autor: %s\n", aux->autor);
+        printf("Año: %d\n", aux->anio);
+        printf("Estado: %s\n", aux->prestado ? "Prestado" : "Disponible");
+        printf("--------------------------\n");
+    }
+}
+
+
+Libro_t* prestarLibro(Libro_t* cabeza, const char* titulo) {
+    for (Libro_t* aux = cabeza; aux; aux = aux->siguiente) {
+        if (strcmp(aux->titulo, titulo) == 0) {
+            if (!aux->prestado) {
+                aux->prestado = true;
+                printf("Libro \"%s\" prestado con éxito.\n", titulo);
+            } else {
+                printf("El libro ya está prestado.\n");
+            }
+            return cabeza;
+        }
+    }
+    printf("No se encontró el libro \"%s\".\n", titulo);
+    return cabeza;
+}
+
+
+int contarPrestados(Libro_t* cabeza) {
+    int cont = 0;
+    for (Libro_t* aux = cabeza; aux; aux = aux->siguiente) {
+        if (aux->prestado) cont++;
+    }
+    return cont;
+}
+
+
+void liberarBiblioteca(Libro_t* cabeza) {
+    Libro_t* aux;
+    while (cabeza) {
+        aux = cabeza;
+        cabeza = cabeza->siguiente;
+        free(aux);
+    }
+}
