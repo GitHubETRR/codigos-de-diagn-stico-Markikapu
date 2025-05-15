@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #define TAM_TEXTO 50
-
+ 
 
 typedef struct Libro {
     char titulo[TAM_TEXTO];
