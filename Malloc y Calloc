@@ -1,0 +1,34 @@
+//Malloc
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    int *p=(int*) malloc(sizeof(int));
+    if (p=NULL){
+        printf("Memoria insificiente\n");
+        exit(-1);
+    }else{
+        *p=17
+        printf("El contenido de P es: %d", *p);
+        free(p);
+    }
+    return 0;
+}
+
+
+//Calloc
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    int *p=(int*) calloc(sizeof(int));
+    if (p=NULL){
+        printf("Memoria insificiente\n");
+        exit(-1);
+    }else{
+        *p=17
+        printf("El contenido de P es: %d", *p);
+        free(p);
+    }
+    return 0;
+}
