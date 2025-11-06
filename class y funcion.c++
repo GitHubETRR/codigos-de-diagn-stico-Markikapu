@@ -34,9 +34,9 @@ int main(){
     int variable =17;
     float ncoma = 3.14;
     
-    cout<<"Hola Isiii"<<endl<<endl;
+    cout<<endl<<"Hola Isiii"<<endl;
     cout<<"Kapu en decimal tiene: "<<variable<< endl;
-    cout<<"Y en hexa tiene: 0x"<< hex <<variable<<endl;
+    cout<<"Y en hexa tiene: 0x"<<hex<<variable<<endl;
     cout<<"Y un float que nada que ver: "<<dec<<ncoma<<endl<<endl;
   
     cout<<"a en var1 es: "<<var1.a<<endl;
@@ -48,7 +48,8 @@ int main(){
 }
 
     void alumno::cantar (void){
-        cout<<"Con la misma moneda te pagué infeliz"<<endl<<endl;
+        cout<<"Hoy es el cumple de Kapuuu 🎉 ✨"<<endl;
+        cout<<"Que los cumplas feliz"<<endl<<endl;
     }
     void alumno::cumpleanios (void){
         cantar();
@@ -56,7 +57,7 @@ int main(){
     }
     void alumno::mostrarDatos (void){
         cout<<"Kapu tiene: "<<edad<<" años"<<endl;
-        cout<<"Kapu pesa: "<<peso<<"kg"<<endl;
+        cout<<"Kapu ahora pesa: "<<peso<<"kg"<<endl;
     }
     alumno::alumno (int edading, int pesoing){
         edad=edading;
@@ -66,5 +67,7 @@ int main(){
         
     }
     int alumno::edadAlumno(){
+        cout<<"Kapu ahora tiene: ";
         return edad;
+        cout<<endl;
     }
